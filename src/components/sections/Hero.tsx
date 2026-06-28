@@ -87,7 +87,7 @@ export default function Hero() {
 
   return (
     <section
-      className="relative flex items-end overflow-hidden w-full"
+      className="relative flex items-center lg:items-end overflow-hidden w-full"
       style={{ height: '100vh', minHeight: '660px' }}
     >
       {/* Slideshow background images with Ken Burns zoom */}
@@ -139,7 +139,7 @@ export default function Hero() {
       />
 
       {/* Content wrapper */}
-      <div className="relative z-30 w-full px-6 lg:px-16 pb-28 md:pb-24 pt-32 max-w-4xl mx-auto text-left">
+      <div className="relative z-30 w-full px-6 lg:px-16 py-32 lg:pb-24 lg:pt-40 max-w-4xl mx-auto text-left">
         {/* Glassmorphic Badge */}
         <div
           className="inline-flex items-center gap-2 mb-4 lg:mb-6 px-3 lg:px-4 py-1.5 lg:py-2 rounded-full backdrop-blur-md"
