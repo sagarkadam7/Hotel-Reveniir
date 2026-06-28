@@ -7,7 +7,7 @@ type ReviewMarqueeProps = {
   className?: string
 }
 
-function ReviewCard({ testimonial, compact }: { testimonial: typeof TESTIMONIALS[0]; compact?: boolean }) {
+function ReviewCard({ testimonial, compact }: { testimonial: typeof TESTIMONIALS[0] & { image?: string }; compact?: boolean }) {
   if (compact) {
     return (
       <div
@@ -35,28 +35,42 @@ function ReviewCard({ testimonial, compact }: { testimonial: typeof TESTIMONIALS
 
   return (
     <div
-      className="shrink-0 w-[340px] md:w-[380px] text-left p-8 bg-white"
+      className="shrink-0 w-[340px] md:w-[380px] text-left p-8 bg-white flex flex-col justify-between"
       style={{
         borderBottom: '3px solid',
         borderImage: 'linear-gradient(90deg, var(--magenta), var(--navy)) 1',
         boxShadow: '0 4px 24px rgba(18,16,14,0.06)',
+        minHeight: '280px' // Ensures all cards stay the same height even if quote lengths vary
       }}
     >
-      <div className="flex gap-0.5 mb-4">
-        {[...Array(testimonial.rating)].map((_, i) => (
-          <span key={i} style={{ color: 'var(--magenta)', fontSize: '14px', letterSpacing: '2px' }}>★</span>
-        ))}
-      </div>
-      <p className="font-display font-light italic mb-6 leading-relaxed" style={{ fontSize: '17px', color: 'var(--resort-dark)', lineHeight: 1.75 }}>
-        "{testimonial.quote}"
-      </p>
       <div>
-        <p className="text-xs font-medium text-[var(--resort-muted)]">
-          {testimonial.author}
+        <div className="flex gap-0.5 mb-4">
+          {[...Array(testimonial.rating)].map((_, i) => (
+            <span key={i} style={{ color: 'var(--magenta)', fontSize: '14px', letterSpacing: '2px' }}>★</span>
+          ))}
+        </div>
+        <p className="font-display font-light italic mb-6 leading-relaxed" style={{ fontSize: '17px', color: 'var(--resort-dark)', lineHeight: 1.75 }}>
+          "{testimonial.quote}"
         </p>
-        <p className="text-[11px] text-[var(--magenta)] mt-1">
-          {testimonial.origin}
-        </p>
+      </div>
+      
+      {/* Customer Image + Details Flexbox */}
+      <div className="mt-auto flex items-center gap-4">
+        <img 
+          // Uses the provided image, or falls back to a generated initial avatar based on their name
+          src={testimonial.image || `https://ui-avatars.com/api/?name=${encodeURIComponent(testimonial.author)}&background=random&color=fff`} 
+          alt={testimonial.author} 
+          className="w-12 h-12 rounded-full object-cover shadow-sm border border-gray-100"
+          loading="lazy"
+        />
+        <div className="flex flex-col">
+          <span className="text-sm font-semibold" style={{ color: 'var(--resort-muted)' }}>
+            {testimonial.author}
+          </span>
+          <span className="text-[11px] mt-0.5" style={{ color: 'var(--magenta)' }}>
+            {testimonial.origin}
+          </span>
+        </div>
       </div>
     </div>
   )
