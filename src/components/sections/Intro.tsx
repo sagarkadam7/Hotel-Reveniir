@@ -60,34 +60,40 @@ export default function Intro() {
         {/* Visual */}
         <div
           ref={imgRef}
-          className={cn('relative hidden lg:block transition-all duration-700 delay-200', imgVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8')}
-          style={{ height: '520px' }}
+          className={cn(
+            'relative w-full transition-all duration-700 delay-200 mt-12 lg:mt-0',
+            imgVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
+          )}
         >
-          <Image
-            src="/images/amenities/pool.jpg"
-            alt="Rooftop pool at Hotel Reveniir"
-            fill
-            style={{ objectFit: 'cover' }}
-            sizes="50vw"
-          />
+          {/* Main Image */}
+          <div className="relative w-full h-[280px] sm:h-[360px] lg:h-[520px] overflow-hidden">
+            <Image
+              src="/images/amenities/pool.jpg"
+              alt="Rooftop pool at Hotel Reveniir"
+              fill
+              style={{ objectFit: 'cover' }}
+              sizes="(max-width: 1024px) 90vw, 50vw"
+            />
+          </div>
+
+          {/* Overlapping Image */}
           <div
-            className="absolute z-10 overflow-hidden"
-            style={{ bottom: '-28px', left: '-28px', width: '180px', height: '240px', border: '5px solid var(--cream)' }}
+            className="absolute z-10 overflow-hidden -bottom-6 -left-4 sm:-left-6 w-[110px] h-[150px] sm:w-[140px] sm:h-[190px] lg:w-[180px] lg:h-[240px]"
+            style={{ border: '4px solid var(--cream)' }}
           >
-            <Image src="/images/amenities/pool.jpg" alt="Pool" fill style={{ objectFit: 'cover' }} sizes="180px" />
+            <Image src="/images/gallery/balcony.jpg" alt="Balcony View" fill style={{ objectFit: 'cover' }} sizes="(max-width: 1024px) 150px, 180px" />
           </div>
 
           {/* Brand badge */}
           <div
-            className="absolute z-20 flex flex-col items-center justify-center text-center"
+            className="absolute z-20 flex flex-col items-center justify-center text-center -top-4 -right-4 w-[72px] h-[72px] sm:w-[84px] sm:h-[84px] lg:w-[96px] lg:h-[96px] rounded-full"
             style={{
-              top: '-20px', right: '-20px',
-              width: '96px', height: '96px', borderRadius: '50%',
               background: 'linear-gradient(135deg, var(--magenta), var(--navy))',
+              boxShadow: '0 4px 20px rgba(0,0,0,0.25)'
             }}
           >
-            <span className="font-display font-light text-white" style={{ fontSize: '20px', lineHeight: 1 }}>4.7★</span>
-            <span style={{ fontSize: '8px', color: 'rgba(255,255,255,0.8)', letterSpacing: '0.1em', textTransform: 'uppercase', marginTop: '4px', fontWeight: 600 }}>Google</span>
+            <span className="font-display font-light text-white text-base sm:text-lg lg:text-xl leading-none">4.7★</span>
+            <span className="text-[7px] sm:text-[8px] text-white/80 tracking-widest uppercase mt-1 font-semibold">Google</span>
           </div>
         </div>
       </div>

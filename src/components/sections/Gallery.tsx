@@ -29,8 +29,10 @@ export default function Gallery() {
           {GALLERY_IMAGES.map((img, i) => (
             <div
               key={img.src}
-              className={cn('relative overflow-hidden group cursor-pointer', i === 0 ? 'col-span-2 row-span-2' : '')}
-              style={{ height: i === 0 ? '562px' : '280px' }}
+              className={cn(
+                'relative overflow-hidden group cursor-pointer w-full',
+                i === 0 ? 'col-span-2 row-span-2 h-[320px] sm:h-[420px] md:h-[562px]' : 'h-[180px] sm:h-[220px] md:h-[280px]'
+              )}
               onClick={() => open(img.src, img.alt)}
             >
               <Image

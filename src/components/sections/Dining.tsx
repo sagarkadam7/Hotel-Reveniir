@@ -30,8 +30,7 @@ export default function Dining() {
           {/* Restaurant */}
           <div
             ref={leftRef}
-            className={cn('relative overflow-hidden group cursor-pointer transition-all duration-700', leftVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8')}
-            style={{ height: '520px' }}
+            className={cn('relative overflow-hidden group cursor-pointer transition-all duration-700 h-[380px] sm:h-[440px] lg:h-[520px]', leftVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8')}
           >
             <Image
               src="/images/amenities/restaurant.jpg"
@@ -39,10 +38,10 @@ export default function Dining() {
               fill
               style={{ objectFit: 'cover', transition: 'transform 0.6s ease' }}
               className="group-hover:scale-105"
-              sizes="50vw"
+              sizes="(max-width: 1024px) 100vw, 50vw"
             />
             <div
-              className="absolute inset-0 flex flex-col justify-end p-10"
+              className="absolute inset-0 flex flex-col justify-end p-6 sm:p-8 lg:p-10"
               style={{ background: 'linear-gradient(to top, rgba(18,16,14,0.95) 0%, rgba(18,16,14,0.2) 60%, transparent 100%)' }}
             >
               <div
@@ -70,8 +69,7 @@ export default function Dining() {
           {/* Breakfast */}
           <div
             ref={rightRef}
-            className={cn('relative overflow-hidden group cursor-pointer transition-all duration-700 delay-150', rightVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8')}
-            style={{ height: '520px' }}
+            className={cn('relative overflow-hidden group cursor-pointer transition-all duration-700 delay-150 h-[380px] sm:h-[440px] lg:h-[520px]', rightVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8')}
           >
             <Image
               src="/images/amenities/breakfast.jpg"
@@ -79,10 +77,10 @@ export default function Dining() {
               fill
               style={{ objectFit: 'cover', transition: 'transform 0.6s ease' }}
               className="group-hover:scale-105"
-              sizes="50vw"
+              sizes="(max-width: 1024px) 100vw, 50vw"
             />
             <div
-              className="absolute inset-0 flex flex-col justify-end p-10"
+              className="absolute inset-0 flex flex-col justify-end p-6 sm:p-8 lg:p-10"
               style={{ background: 'linear-gradient(to top, rgba(18,16,14,0.95) 0%, rgba(18,16,14,0.2) 60%, transparent 100%)' }}
             >
               <div

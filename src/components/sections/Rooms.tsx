@@ -87,7 +87,7 @@ function RoomCard({ room, index, onBook }: { room: typeof ROOMS[0], index: numbe
 
           <button
             onClick={onBook}
-            className="flex items-center gap-2 text-[11px] font-medium tracking-widest uppercase transition-all duration-300 opacity-0 translate-y-2 group-hover:opacity-100 group-hover:translate-y-0"
+            className="flex items-center gap-2 text-[11px] font-medium tracking-widest uppercase transition-all duration-300 opacity-100 translate-y-0 lg:opacity-0 lg:translate-y-2 lg:group-hover:opacity-100 lg:group-hover:translate-y-0"
             style={{ color: 'var(--magenta-light)', letterSpacing: '0.18em', background: 'none', border: 'none', cursor: 'pointer', padding: 0 }}
           >
             Book this room <ArrowRight size={12} />

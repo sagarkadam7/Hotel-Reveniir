@@ -2,7 +2,7 @@
 
 import { useState } from 'react'
 import Image from 'next/image'
-import { Menu, X } from 'lucide-react'
+import { Menu, X, Phone, MessageSquare } from 'lucide-react'
 import { useScrolled } from '@/hooks/useScrolled'
 import { NAV_LINKS, HOTEL } from '@/data/hotel'
 import { cn } from '@/lib/utils'
@@ -100,10 +100,10 @@ export default function Navbar() {
       {/* Mobile Menu */}
       <div
         className={cn(
-          'fixed inset-0 z-[100] flex flex-col items-center justify-center gap-8 transition-all duration-400',
+          'fixed inset-0 z-[100] flex flex-col items-center justify-center gap-6 transition-all duration-500',
           mobileOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'
         )}
-        style={{ background: 'rgba(18,16,14,0.98)', backdropFilter: 'blur(12px)' }}
+        style={{ background: 'rgba(10, 8, 6, 0.90)', backdropFilter: 'blur(24px)' }}
       >
         <button
           className="absolute top-6 right-6 text-white p-2"
@@ -113,7 +113,7 @@ export default function Navbar() {
           <X size={28} />
         </button>
 
-        <div className="mb-4">
+        <div className="mb-2">
           <div className="w-20 h-20 mx-auto rounded-full overflow-hidden border-2 bg-white flex items-center justify-center" style={{ borderColor: 'var(--magenta)' }}>
             <Image src="/images/logo.jpg" alt="Logo" width={72} height={72} style={{ objectFit: 'contain', borderRadius: '50%' }} />
           </div>
@@ -124,7 +124,11 @@ export default function Navbar() {
             key={link.href}
             href={link.href}
             onClick={() => setMobileOpen(false)}
-            className="font-display text-4xl font-light text-white hover:text-pink-400 transition-colors duration-200"
+            className={cn(
+              "font-display text-3xl font-light text-white hover:text-[var(--magenta-light)] transition-all duration-300",
+              mobileOpen ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
+            )}
+            style={{ transitionDelay: mobileOpen ? `${i * 75}ms` : '0ms' }}
           >
             {link.label}
           </a>
@@ -135,11 +139,21 @@ export default function Navbar() {
             setMobileOpen(false)
             window.dispatchEvent(new CustomEvent('open-booking'))
           }}
-          className="btn-primary mt-4"
+          className="btn-primary mt-2"
           style={{ border: 'none', cursor: 'pointer' }}
         >
           Book Now
         </button>
+
+        <div className="flex flex-col items-center gap-2 mt-6 pt-6 border-t border-white/5 w-48 text-center text-xs text-white/40">
+          <a href={`tel:${HOTEL.phone}`} className="hover:text-white transition-colors flex items-center gap-1.5">
+            <Phone size={10} /> +91 {HOTEL.phone}
+          </a>
+          <a href={`https://wa.me/${HOTEL.whatsapp}`} target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors flex items-center gap-1.5">
+            <MessageSquare size={10} /> Chat on WhatsApp
+          </a>
+          <span className="text-[9px] uppercase tracking-widest mt-1">Gold Valley, Lonavala</span>
+        </div>
       </div>
     </>
   )

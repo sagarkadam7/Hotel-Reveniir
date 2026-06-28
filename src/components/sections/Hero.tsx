@@ -163,7 +163,7 @@ export default function Hero() {
         <h1
           className="font-display font-light text-white mb-4 lg:mb-6 tracking-tight leading-none"
           style={{
-            fontSize: 'clamp(36px, 5.5vw, 76px)',
+            fontSize: 'clamp(28px, 6.5vw, 76px)',
             lineHeight: '1.05',
           }}
         >
