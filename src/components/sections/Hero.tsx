@@ -2,36 +2,38 @@
 
 import { useState, useEffect, useRef } from 'react'
 import Image from 'next/image'
-import { ChevronLeft, ChevronRight, Star, MapPin, Waves, UtensilsCrossed } from 'lucide-react'
+import { ArrowUpRight, ArrowRight } from 'lucide-react'
 import { cn } from '@/lib/utils'
-import { HOTEL } from '@/data/hotel'
-import ReviewMarquee from '@/components/ui/ReviewMarquee'
 
 const HERO_SLIDES = [
   {
     image: '/images/amenities/pool.jpg',
     position: 'center center',
-    label: 'Rooftop pool',
-    caption: 'Swim with the hills around you',
+    label: 'The Rooftop',
+    caption: 'A pool suspended in the Sahyadris',
+    index: '01',
   },
   {
     image: '/images/rooms/suite.jpg',
     position: 'center center',
-    label: 'Cosy rooms',
-    caption: 'Spaces made for switching off',
+    label: 'The Suites',
+    caption: 'Quiet rooms, slow mornings',
+    index: '02',
   },
   {
     image: '/images/gallery/balcony.jpg',
     position: 'center center',
-    label: 'Valley views',
-    caption: 'Morning mist from your balcony',
+    label: 'The Valley',
+    caption: 'Mist that rolls in by sunrise',
+    index: '03',
   },
   {
     image: '/images/amenities/restaurant.jpg',
     position: 'center center',
-    label: 'Good food',
-    caption: 'Meals that feel home-cooked',
-  }
+    label: 'The Table',
+    caption: 'Home-cooked, hill-grown',
+    index: '04',
+  },
 ]
 
 export default function Hero() {
@@ -40,31 +42,22 @@ export default function Hero() {
   const timerRef = useRef<NodeJS.Timeout | null>(null)
   const progressIntervalRef = useRef<NodeJS.Timeout | null>(null)
 
-  const slideDuration = 6000 // 6 seconds per slide
+  const slideDuration = 7000
 
-  // Start autoplay timer and progress bar tracking
   useEffect(() => {
     startTimer()
-    return () => {
-      stopTimer()
-    }
+    return () => stopTimer()
   }, [current])
 
   const startTimer = () => {
     stopTimer()
     setProgress(0)
-    
-    // Autoplay transition
-    timerRef.current = setTimeout(() => {
-      handleNext()
-    }, slideDuration)
-
-    // Progress bar update (every 50ms)
+    timerRef.current = setTimeout(() => handleNext(), slideDuration)
     const steps = slideDuration / 50
-    let currentStep = 0
+    let s = 0
     progressIntervalRef.current = setInterval(() => {
-      currentStep++
-      setProgress(Math.min((currentStep / steps) * 100, 100))
+      s++
+      setProgress(Math.min((s / steps) * 100, 100))
     }, 50)
   }
 
@@ -73,50 +66,46 @@ export default function Hero() {
     if (progressIntervalRef.current) clearInterval(progressIntervalRef.current)
   }
 
-  const handleNext = () => {
-    setCurrent((prev) => (prev + 1) % HERO_SLIDES.length)
-  }
+  const handleNext = () => setCurrent((p) => (p + 1) % HERO_SLIDES.length)
+  const handlePrev = () => setCurrent((p) => (p - 1 + HERO_SLIDES.length) % HERO_SLIDES.length)
 
-  const handlePrev = () => {
-    setCurrent((prev) => (prev - 1 + HERO_SLIDES.length) % HERO_SLIDES.length)
-  }
-
-  const handleDotClick = (index: number) => {
-    setCurrent(index)
-  }
+  const activeSlide = HERO_SLIDES[current]
 
   return (
     <section
-      className="relative flex items-center lg:items-end overflow-hidden w-full"
-      style={{ height: '100vh', minHeight: '660px' }}
+      className="relative overflow-hidden w-full bg-neutral-950"
+      style={{ height: '100vh', minHeight: '720px' }}
     >
-      {/* Slideshow background images with Ken Burns zoom */}
-      <div className="absolute inset-0 w-full h-full bg-neutral-950">
+      {/* === Background slides with slow Ken Burns === */}
+      <div className="absolute inset-0">
         {HERO_SLIDES.map((slide, index) => {
           const isActive = index === current
           return (
             <div
               key={slide.image}
               className={cn(
-                "absolute inset-0 w-full h-full transition-opacity duration-1000 ease-in-out",
-                isActive ? "opacity-100 z-10" : "opacity-0 z-0"
+                'absolute inset-0 transition-opacity ease-in-out',
+                isActive ? 'opacity-100 z-10' : 'opacity-0 z-0'
               )}
+              style={{ transitionDuration: '1600ms' }}
             >
               <div
-                className="relative w-full h-full transition-transform ease-out"
+                className="relative w-full h-full"
                 style={{
-                  transform: isActive ? 'scale(1.12)' : 'scale(1.02)',
-                  transitionDuration: isActive ? `${slideDuration}ms` : '0ms',
+                  transform: isActive ? 'scale(1.08)' : 'scale(1.0)',
+                  transition: isActive
+                    ? `transform ${slideDuration + 1600}ms ease-out`
+                    : 'transform 0ms',
                 }}
               >
                 <Image
                   src={slide.image}
-                  alt="Resort View"
+                  alt={slide.label}
                   fill
                   style={{ objectFit: 'cover', objectPosition: slide.position }}
                   priority={index === 0}
                   sizes="100vw"
-                  quality={90}
+                  quality={95}
                 />
               </div>
             </div>
@@ -124,147 +113,212 @@ export default function Hero() {
         })}
       </div>
 
-      {/* Modern Vignette Overlay */}
+      {/* === Cinematic overlays === */}
       <div
         className="absolute inset-0 z-20 pointer-events-none"
         style={{
-          background: 'linear-gradient(to top, rgba(10,8,6,0.96) 0%, rgba(10,8,6,0.55) 50%, rgba(10,8,6,0.3) 100%)',
+          background:
+            'linear-gradient(180deg, rgba(12,10,9,0.55) 0%, rgba(12,10,9,0.15) 30%, rgba(12,10,9,0.35) 65%, rgba(12,10,9,0.92) 100%)',
+        }}
+      />
+      <div
+        className="absolute inset-0 z-20 pointer-events-none hidden lg:block"
+        style={{
+          background:
+            'linear-gradient(90deg, rgba(12,10,9,0.55) 0%, rgba(12,10,9,0.2) 35%, rgba(12,10,9,0) 65%)',
+        }}
+      />
+      <div
+        className="absolute inset-0 z-20 pointer-events-none opacity-[0.08] mix-blend-overlay"
+        style={{
+          backgroundImage:
+            "url(\"data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E\")",
         }}
       />
 
-      {/* Dynamic Colored Accent Line at bottom */}
-      <div
-        className="absolute bottom-0 left-0 right-0 h-[3px] z-30"
-        style={{ background: 'linear-gradient(90deg, var(--magenta), var(--navy), var(--magenta))' }}
-      />
-
-      {/* Content wrapper */}
-      <div className="relative z-30 w-full px-6 lg:px-16 py-32 lg:pb-24 lg:pt-40 max-w-4xl mx-auto text-left">
-        {/* Glassmorphic Badge */}
-        <div
-          className="inline-flex items-center gap-2 mb-4 lg:mb-6 px-3 lg:px-4 py-1.5 lg:py-2 rounded-full backdrop-blur-md"
-          style={{
-            background: 'rgba(255, 255, 255, 0.04)',
-            border: '1px solid rgba(255, 255, 255, 0.1)',
-            boxShadow: '0 4px 30px rgba(0, 0, 0, 0.1)',
-          }}
+      {/* === Left rail: vertical brandline === */}
+      <div className="absolute left-6 lg:left-10 top-1/2 -translate-y-1/2 z-30 hidden md:flex flex-col items-center gap-6">
+        <span
+          className="text-[10px] tracking-[0.4em] text-white/50 uppercase"
+          style={{ writingMode: 'vertical-rl', transform: 'rotate(180deg)' }}
         >
-          <Star size={11} className="text-yellow-400 fill-yellow-400 animate-pulse" />
-          <span className="text-[9px] lg:text-[10px]" style={{ color: 'white', letterSpacing: '0.25em', textTransform: 'uppercase', fontWeight: 600 }}>
-            4.7 RATED RESORT
-          </span>
-          <span style={{ color: 'rgba(255,255,255,0.3)', fontSize: '10px' }}>·</span>
-          <span className="text-[9px] lg:text-[10px]" style={{ color: 'var(--magenta-light)', letterSpacing: '0.15em', fontWeight: 500 }}>
-            LONAVALA HILLS
-          </span>
-        </div>
-
-        {/* Slogan Headline */}
-        <h1
-          className="font-display font-light text-white mb-4 lg:mb-6 tracking-tight leading-none"
-          style={{
-            fontSize: 'clamp(28px, 6.5vw, 76px)',
-            lineHeight: '1.05',
-          }}
-        >
-          <span className="block text-white/80 text-[0.45em] font-sans font-medium tracking-[0.2em] uppercase mb-2">
-            Hotel Reveniir
-          </span>
-          A hotel that feels like<br />
-          <em className="font-serif italic" style={{ color: 'var(--magenta-light)' }}>
-            coming home
-          </em>
-        </h1>
-
-        {/* Description text */}
-        <p
-          className="font-light text-white/70 mb-6 lg:mb-8 max-w-xl leading-relaxed text-xs sm:text-sm lg:text-base"
-        >
-          Tucked into the hills of Lonavala, Reveniir gives you a proper escape — warm rooms, a rooftop pool, home-cooked meals, and mornings that smell like the Sahyadris.
-        </p>
-
-        {/* CTA Buttons */}
-        <div className="flex flex-wrap gap-3 lg:gap-4 items-center">
-          <button
-            onClick={() => window.dispatchEvent(new CustomEvent('open-booking'))}
-            className="btn-primary group relative overflow-hidden"
-            style={{ border: 'none', cursor: 'pointer' }}
-          >
-            <span className="relative z-10">Check Availability</span>
-            <span className="absolute inset-0 bg-white/10 translate-y-full group-hover:translate-y-0 transition-transform duration-300" />
-          </button>
-          <a href="#rooms" className="btn-outline group">
-            <span>See Our Rooms</span>
-          </a>
-        </div>
-      </div>
-
-      {/* Navigation Controls (Dots & Arrows) */}
-      <div className="absolute bottom-8 right-6 lg:right-16 z-30 flex items-center gap-6">
-        {/* Left Arrow */}
-        <button
-          onClick={handlePrev}
-          className="w-9 h-9 lg:w-10 lg:h-10 rounded-full border flex items-center justify-center text-white/60 hover:text-white hover:bg-white/10 transition-all duration-300"
-          style={{ borderColor: 'rgba(255,255,255,0.15)' }}
-          aria-label="Previous image"
-        >
-          <ChevronLeft size={18} className="lg:w-5 lg:h-5" />
-        </button>
-
-        {/* Slideshow Progress and Dots */}
-        <div className="flex items-center gap-2">
-          {HERO_SLIDES.map((_, index) => {
-            const isActive = index === current
-            return (
-              <button
-                key={index}
-                onClick={() => handleDotClick(index)}
-                className="group relative py-2 px-1 focus:outline-none"
-                aria-label={`Go to slide ${index + 1}`}
-              >
-                {/* Horizontal bar indicator */}
-                <div
-                  className={cn(
-                    "h-[3px] rounded-full transition-all duration-500 overflow-hidden",
-                    isActive ? "w-8 bg-pink-500" : "w-3 bg-white/35 group-hover:bg-white/60"
-                  )}
-                >
-                  {/* Progress bar fill for active slide */}
-                  {isActive && (
-                    <div
-                      className="h-full bg-white rounded-full transition-all duration-50"
-                      style={{ width: `${progress}%` }}
-                    />
-                  )}
-                </div>
-              </button>
-            )
-          })}
-        </div>
-
-        {/* Right Arrow */}
-        <button
-          onClick={handleNext}
-          className="w-9 h-9 lg:w-10 lg:h-10 rounded-full border flex items-center justify-center text-white/60 hover:text-white hover:bg-white/10 transition-all duration-300"
-          style={{ borderColor: 'rgba(255,255,255,0.15)' }}
-          aria-label="Next image"
-        >
-          <ChevronRight size={18} className="lg:w-5 lg:h-5" />
-        </button>
-      </div>
-
-      {/* Scroll indicator (Bottom Left) */}
-      <div className="absolute bottom-8 left-6 lg:left-16 hidden md:flex items-center gap-3 z-30">
-        <div
-          className="w-px h-10"
-          style={{
-            background: 'linear-gradient(to bottom, var(--magenta), transparent)',
-            animation: 'scrollPulse 2s ease-in-out infinite',
-          }}
-        />
-        <span style={{ color: 'rgba(255,255,255,0.3)', fontSize: '9px', letterSpacing: '0.25em', textTransform: 'uppercase' }}>
-          Scroll down
+          Est. Lonavala · Maharashtra
         </span>
+        <div className="w-px h-24 bg-gradient-to-b from-white/40 to-transparent" />
+      </div>
+
+      {/* === Main content === */}
+      <div className="relative z-30 h-full w-full">
+        <div className="h-full max-w-[1400px] mx-auto px-6 lg:px-20 flex flex-col justify-end pb-32 lg:pb-40">
+          {/* Eyebrow */}
+          <div className="flex items-center gap-4 mb-6 lg:mb-8">
+            <div className="h-px w-10 bg-white/50" />
+            <span
+              className="text-[10px] lg:text-[11px] tracking-[0.35em] uppercase text-white/80"
+              style={{ fontWeight: 500 }}
+            >
+              A Boutique Retreat · Est. 2014
+            </span>
+          </div>
+
+          {/* Headline */}
+          <h1
+            className="font-serif text-white tracking-tight"
+            style={{
+              fontSize: 'clamp(44px, 8vw, 112px)',
+              lineHeight: 0.98,
+              fontWeight: 300,
+              letterSpacing: '-0.02em',
+            }}
+          >
+            A hotel that feels
+            <br />
+            <span className="italic font-light text-[#E4007C]">like coming home.</span>
+          </h1>
+
+          {/* Description */}
+          <p
+            className="mt-8 lg:mt-10 max-w-xl text-white/80 leading-relaxed"
+            style={{
+              fontSize: 'clamp(14px, 1.05vw, 16px)',
+              fontWeight: 300,
+              letterSpacing: '0.01em',
+            }}
+          >
+            Tucked into the hills of Lonavala, Reveniir is a slow, warm escape — sunlit
+            rooms, a rooftop pool above the valley, and mornings that smell like the
+            Sahyadris.
+          </p>
+
+          {/* CTAs */}
+          <div className="mt-10 lg:mt-12 flex flex-wrap items-center gap-5 lg:gap-8">
+            <button
+              onClick={() => window.dispatchEvent(new CustomEvent('open-booking'))}
+              className="group inline-flex items-center gap-3 bg-white text-neutral-900 px-7 lg:px-9 py-4 lg:py-[18px] text-[11px] lg:text-[12px] tracking-[0.25em] uppercase font-medium transition-all duration-500 hover:bg-[#E4007C] hover:text-white"
+              style={{ cursor: 'pointer', borderRadius: 0 }}
+            >
+              <span>Reserve Your Stay</span>
+              <ArrowUpRight
+                size={16}
+                className="transition-transform duration-500 group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
+              />
+            </button>
+
+            <a
+              href="#rooms"
+              className="group inline-flex items-center gap-2 text-white text-[11px] lg:text-[12px] tracking-[0.25em] uppercase font-medium pb-1 border-b border-white/30 hover:border-[#E4007C] hover:text-[#E4007C] transition-colors duration-500"
+            >
+              <span>Explore the Rooms</span>
+              <ArrowRight
+                size={14}
+                className="transition-transform duration-500 group-hover:translate-x-1"
+              />
+            </a>
+          </div>
+        </div>
+      </div>
+
+      {/* === Bottom bar === */}
+      <div className="absolute bottom-0 left-0 right-0 z-30">
+        <div className="max-w-[1400px] mx-auto px-6 lg:px-20">
+          <div className="h-px bg-white/15" />
+        </div>
+
+        <div className="max-w-[1400px] mx-auto px-6 lg:px-20 py-5 lg:py-7 flex items-center justify-between gap-6">
+          <div className="flex items-center gap-5 lg:gap-7 min-w-0">
+            <span
+              className="font-serif text-[#E4007C] text-2xl lg:text-3xl tabular-nums"
+              style={{ fontWeight: 300 }}
+            >
+              {activeSlide.index}
+            </span>
+            <div className="h-8 w-px bg-white/20" />
+            <div className="min-w-0">
+              <div className="text-[10px] tracking-[0.3em] uppercase text-white/50 mb-1">
+                {activeSlide.label}
+              </div>
+              <div className="text-sm lg:text-[15px] text-white/90 font-light truncate">
+                {activeSlide.caption}
+              </div>
+            </div>
+          </div>
+
+          <div className="flex items-center gap-6 lg:gap-8 shrink-0">
+            <div className="hidden sm:flex items-center gap-3">
+              {HERO_SLIDES.map((s, i) => {
+                const isActive = i === current
+                return (
+                  <button
+                    key={s.index}
+                    onClick={() => setCurrent(i)}
+                    className="group flex items-center gap-2"
+                    aria-label={`Slide ${s.index}`}
+                  >
+                    <span
+                      className={cn(
+                        'text-[11px] tabular-nums transition-colors duration-500',
+                        isActive ? 'text-[#E4007C]' : 'text-white/35 group-hover:text-white/70'
+                      )}
+                    >
+                      {s.index}
+                    </span>
+                    <div
+                      className={cn(
+                        'h-px transition-all duration-500 overflow-hidden',
+                        isActive ? 'w-12 bg-[#E4007C]/40' : 'w-4 bg-white/15'
+                      )}
+                    >
+                      {isActive && (
+                        <div
+                          className="h-full bg-[#E4007C]"
+                          style={{ width: `${progress}%`, transition: 'width 50ms linear' }}
+                        />
+                      )}
+                    </div>
+                  </button>
+                )
+              })}
+            </div>
+
+            <div className="flex items-center gap-2">
+              <button
+                onClick={handlePrev}
+                className="w-11 h-11 rounded-full border border-white/20 flex items-center justify-center text-white/70 hover:text-[#E4007C] hover:border-[#E4007C] transition-all duration-500"
+                aria-label="Previous"
+              >
+                <ArrowRight size={15} className="rotate-180" />
+              </button>
+              <button
+                onClick={handleNext}
+                className="w-11 h-11 rounded-full border border-white/20 flex items-center justify-center text-white/70 hover:text-[#E4007C] hover:border-[#E4007C] transition-all duration-500"
+                aria-label="Next"
+              >
+                <ArrowRight size={15} />
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* === Top-right floating rating chip === */}
+      <div className="absolute top-28 lg:top-32 right-6 lg:right-20 z-30 hidden md:flex flex-col items-end">
+        <div className="flex items-center gap-2 mb-2">
+          {[...Array(5)].map((_, i) => (
+            <svg
+              key={i}
+              width="10"
+              height="10"
+              viewBox="0 0 24 24"
+              fill="#E4007C"
+              className={i < 4 ? '' : 'opacity-50'}
+            >
+              <path d="M12 .587l3.668 7.568L24 9.75l-6 5.847 1.416 8.253L12 19.771l-7.416 4.079L6 15.597 0 9.75l8.332-1.595z" />
+            </svg>
+          ))}
+        </div>
+        <div className="text-[10px] tracking-[0.3em] uppercase text-white/60">
+          4.7 · 1,240 Guest Reviews
+        </div>
       </div>
     </section>
   )
