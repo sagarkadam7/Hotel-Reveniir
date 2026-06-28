@@ -15,31 +15,30 @@ export default function Navbar() {
     <>
       <nav
         className={cn(
-          'fixed top-0 left-0 right-0 z-50 flex items-center justify-between transition-all duration-400',
+          'fixed top-0 left-0 right-0 z-50 flex items-center justify-between transition-all duration-400 px-6 md:px-12 lg:px-16',
+          scrolled ? 'py-2.5 shadow-md border-b' : 'py-4 md:py-6'
         )}
         style={{
-          padding: scrolled ? '10px 48px' : '18px 48px',
-          background: scrolled ? 'rgba(18,16,14,0.97)' : 'transparent',
-          backdropFilter: scrolled ? 'blur(12px)' : 'none',
-          boxShadow: scrolled ? '0 1px 0 rgba(255,255,255,0.05)' : 'none',
+          background: scrolled ? 'rgba(18, 16, 14, 0.96)' : 'transparent',
+          backdropFilter: scrolled ? 'blur(16px)' : 'none',
+          borderColor: 'rgba(255, 255, 255, 0.05)',
         }}
       >
         {/* Logo */}
         <a href="#" className="flex items-center gap-3 no-underline z-10 flex-shrink-0">
           <div
-            className="overflow-hidden rounded-full flex-shrink-0 flex items-center justify-center"
+            className="overflow-hidden rounded-full flex-shrink-0 flex items-center justify-center transition-all duration-300 border bg-white shadow-[0_2px_12px_rgba(0,0,0,0.15)]"
             style={{
-              width: scrolled ? '44px' : '54px',
-              height: scrolled ? '44px' : '54px',
-              transition: 'all 0.3s ease',
-              background: 'white',
+              width: scrolled ? '38px' : '48px',
+              height: scrolled ? '38px' : '48px',
+              borderColor: 'rgba(255, 255, 255, 0.25)',
             }}
           >
             <Image
               src="/images/logo.jpg"
               alt="Hotel Reveniir Logo"
-              width={scrolled ? 38 : 48}
-              height={scrolled ? 38 : 48}
+              width={scrolled ? 34 : 42}
+              height={scrolled ? 34 : 42}
               style={{ objectFit: 'contain', borderRadius: '50%' }}
             />
           </div>
@@ -89,11 +88,19 @@ export default function Navbar() {
 
         {/* Hamburger */}
         <button
-          className="lg:hidden text-white p-2 z-10"
+          className="lg:hidden text-white flex items-center justify-center z-10 rounded-full border transition-all duration-300 hover:bg-white/10 active:scale-95"
+          style={{
+            width: '40px',
+            height: '40px',
+            background: 'rgba(255, 255, 255, 0.06)',
+            borderColor: 'rgba(255, 255, 255, 0.16)',
+            backdropFilter: 'blur(8px)',
+            boxShadow: '0 4px 12px rgba(0, 0, 0, 0.12)'
+          }}
           onClick={() => setMobileOpen(true)}
           aria-label="Open menu"
         >
-          <Menu size={24} />
+          <Menu size={18} />
         </button>
       </nav>
 

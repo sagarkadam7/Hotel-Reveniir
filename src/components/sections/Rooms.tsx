@@ -1,17 +1,19 @@
 'use client'
 
+import { useState } from 'react'
 import Image from 'next/image'
 import { Maximize2, Users, ArrowRight } from 'lucide-react'
 import { ROOMS } from '@/data/hotel'
 import { useFadeUp } from '@/hooks/useFadeUp'
 import { cn, formatPrice } from '@/lib/utils'
+import BookingModal from './BookingModal'
+import { getTomorrowDate, getDayAfterTomorrow } from '@/lib/utils'
 
 export default function Rooms() {
   const { ref: headerRef, inView: headerVisible } = useFadeUp()
+  const [modalRoom, setModalRoom] = useState<string | null>(null)
 
-  const handleBook = (roomName: string) => {
-    window.dispatchEvent(new CustomEvent('open-booking', { detail: { roomType: roomName } }))
-  }
+  const handleBook = (roomName: string) => setModalRoom(roomName)
 
   return (
     <>
@@ -19,14 +21,14 @@ export default function Rooms() {
         <div className="max-w-7xl mx-auto">
           <div ref={headerRef} className={cn('flex flex-col lg:flex-row justify-between items-start lg:items-end mb-14 gap-6 transition-all duration-700', headerVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8')}>
             <div>
-              <p className="section-label mb-4">Where you&apos;ll sleep</p>
+              <p className="section-label mb-4">Where You Sleep</p>
               <h2 className="font-display font-light" style={{ fontSize: 'clamp(30px,4vw,52px)', lineHeight: 1.05, color: 'var(--resort-dark)' }}>
-                Rooms that let you<br />
-                <em style={{ fontStyle: 'italic', color: 'var(--resort-muted)' }}>actually switch off</em>
+                Rooms that actually<br />
+                <em style={{ fontStyle: 'italic', color: 'var(--resort-muted)' }}>let you rest</em>
               </h2>
               <div className="divider-brand mt-6" />
             </div>
-            <a href="#booking" className="btn-primary flex-shrink-0">View all rooms</a>
+            <a href="#booking" className="btn-primary flex-shrink-0">View All Rooms</a>
           </div>
 
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-1">
@@ -36,6 +38,16 @@ export default function Rooms() {
           </div>
         </div>
       </section>
+
+      {modalRoom && (
+        <BookingModal
+          checkIn={getTomorrowDate().toISOString().split('T')[0]}
+          checkOut={getDayAfterTomorrow().toISOString().split('T')[0]}
+          guests="2 Guests"
+          roomType={modalRoom}
+          onClose={() => setModalRoom(null)}
+        />
+      )}
     </>
   )
 }
@@ -59,7 +71,7 @@ function RoomCard({ room, index, onBook }: { room: typeof ROOMS[0], index: numbe
         />
         <div
           className="absolute inset-0 flex flex-col justify-end p-8 transition-all duration-300"
-          style={{ background: 'linear-gradient(to top, rgba(18,16,14,0.97) 0%, rgba(18,16,14,0.1) 55%, transparent 100%)' }}
+          style={{ background: 'linear-gradient(to top, rgba(10,8,6,1) 0%, rgba(10,8,6,0.88) 45%, rgba(10,8,6,0.45) 72%, rgba(10,8,6,0.08) 100%)' }}
         >
           <div
             className="inline-block self-start px-2.5 py-1 mb-3 text-[9px] font-semibold tracking-widest uppercase"
@@ -72,25 +84,25 @@ function RoomCard({ room, index, onBook }: { room: typeof ROOMS[0], index: numbe
             {room.name}
           </h3>
 
-          <p className="font-light mb-4 leading-relaxed" style={{ fontSize: '13px', color: 'rgba(255,255,255,0.55)', lineHeight: 1.65 }}>
+          <p className="font-light mb-4 leading-relaxed" style={{ fontSize: '13px', color: 'rgba(255,255,255,0.82)', lineHeight: 1.65 }}>
             {room.description}
           </p>
 
           <div className="flex gap-4 mb-4">
-            <span className="flex items-center gap-1.5 text-white/40 text-xs"><Maximize2 size={10} />{room.size}</span>
-            <span className="flex items-center gap-1.5 text-white/40 text-xs"><Users size={10} />{room.guests} Guests max</span>
+            <span className="flex items-center gap-1.5 text-white/65 text-xs"><Maximize2 size={10} />{room.size}</span>
+            <span className="flex items-center gap-1.5 text-white/65 text-xs"><Users size={10} />{room.guests} Guests max</span>
           </div>
 
-          <p className="text-white/50 text-sm mb-4">
+          <p className="text-white/75 text-sm mb-4">
             from <span className="font-display font-light text-white text-2xl">{formatPrice(room.price)}</span> / night
           </p>
 
           <button
             onClick={onBook}
-            className="flex items-center gap-2 text-[11px] font-medium tracking-widest uppercase transition-all duration-300 opacity-100 translate-y-0 lg:opacity-0 lg:translate-y-2 lg:group-hover:opacity-100 lg:group-hover:translate-y-0"
+            className="flex items-center gap-2 text-[11px] font-medium tracking-widest uppercase transition-all duration-300 opacity-0 translate-y-2 group-hover:opacity-100 group-hover:translate-y-0"
             style={{ color: 'var(--magenta-light)', letterSpacing: '0.18em', background: 'none', border: 'none', cursor: 'pointer', padding: 0 }}
           >
-            Book this room <ArrowRight size={12} />
+            Book This Room <ArrowRight size={12} />
           </button>
         </div>
       </div>
