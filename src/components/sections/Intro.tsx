@@ -34,10 +34,10 @@ export default function Intro() {
           <div className="divider-brand my-7" />
 
           <p style={{ fontSize: '15px', color: 'var(--resort-muted)', lineHeight: '1.9', marginBottom: '18px' }}>
-            Hotel Reveniir sits in Gold Valley, Tungarli — a quiet patch of Lonavala with palm trees and white colonial-style buildings. It looks grand from the outside. Inside, it feels like somewhere you can actually relax. That was the idea.
+            Hotel Reveniir is located in Gold Valley, Tungarli – a peaceful location in Lonavala featuring palm trees and colonial buildings of white color. Our hotel seems luxurious from the outside. However, once inside, one feels comfortable enough to rest properly. This was our main aim.
           </p>
           <p style={{ fontSize: '15px', color: 'var(--resort-muted)', lineHeight: '1.9' }}>
-            Run by Riyo Hospitality since {HOTEL.yearEstablished}, we host families from Mumbai and Pune, couples on weekend trips, office teams, and the odd solo traveller who just needs fresh air. Some guests come back every monsoon. We take that as a compliment.
+            Managed by Riyo Hospitality since 2018, our guests include families from Mumbai and Pune, couples on their weekend getaway, office teams and sometimes even solo travelers who need some breathing space. We are happy to note that some of them visit us during every monsoon season.
           </p>
 
           <div className="flex gap-10 mt-12 pt-10" style={{ borderTop: '1px solid rgba(0,0,0,0.07)' }}>

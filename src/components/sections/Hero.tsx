@@ -103,7 +103,7 @@ export default function Hero() {
               )}
             >
               <div
-                className="w-full h-full transition-transform ease-out"
+                className="relative w-full h-full transition-transform ease-out"
                 style={{
                   transform: isActive ? 'scale(1.12)' : 'scale(1.02)',
                   transitionDuration: isActive ? `${slideDuration}ms` : '0ms',
