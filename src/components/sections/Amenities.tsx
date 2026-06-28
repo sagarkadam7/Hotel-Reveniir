@@ -4,6 +4,16 @@ import Image from 'next/image'
 import { AMENITIES } from '@/data/hotel'
 import { useFadeUp } from '@/hooks/useFadeUp'
 import { cn } from '@/lib/utils'
+import { LucideIcon, Waves, Wind, Utensils, PartyPopper, Wifi, Leaf } from 'lucide-react'
+
+const ICON_MAP: Record<string, LucideIcon> = {
+  'waves': Waves,
+  'wind': Wind,
+  'utensils': Utensils,
+  'party-popper': PartyPopper,
+  'wifi': Wifi,
+  'leaf': Leaf
+}
 
 export default function Amenities() {
   const { ref: textRef, inView: textVisible } = useFadeUp()
@@ -25,21 +35,28 @@ export default function Amenities() {
           <div className="divider-brand my-7" />
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 mt-2">
-            {AMENITIES.map((a, i) => (
-              <div
-                key={a.name}
-                className="pb-6"
-                style={{ borderBottom: '1px solid rgba(0,0,0,0.07)', transitionDelay: `${i * 60}ms` }}
-              >
-                <div className="text-3xl mb-3 leading-none">{a.icon}</div>
-                <h4 className="font-display font-light mb-1.5" style={{ fontSize: '19px', color: 'var(--resort-dark)' }}>
-                  {a.name}
-                </h4>
-                <p style={{ fontSize: '13px', color: 'var(--resort-muted)', lineHeight: '1.65', fontWeight: 300 }}>
-                  {a.description}
-                </p>
-              </div>
-            ))}
+            {AMENITIES.map((a, i) => {
+              const IconComponent = ICON_MAP[a.icon] || Leaf
+              return (
+                <div
+                  key={a.name}
+                  className="pb-6"
+                  style={{ borderBottom: '1px solid rgba(0,0,0,0.07)', transitionDelay: `${i * 60}ms` }}
+                >
+                  <div className="mb-3 leading-none flex items-center">
+                    <div className="p-2.5 rounded-xl bg-[rgba(224,21,122,0.06)] text-[var(--magenta)] inline-flex items-center justify-center border border-[rgba(224,21,122,0.12)]">
+                      <IconComponent size={20} strokeWidth={1.5} />
+                    </div>
+                  </div>
+                  <h4 className="font-display font-light mb-1.5" style={{ fontSize: '19px', color: 'var(--resort-dark)' }}>
+                    {a.name}
+                  </h4>
+                  <p style={{ fontSize: '13px', color: 'var(--resort-muted)', lineHeight: '1.65', fontWeight: 300 }}>
+                    {a.description}
+                  </p>
+                </div>
+              )
+            })}
           </div>
         </div>
 

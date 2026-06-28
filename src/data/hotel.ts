@@ -62,32 +62,32 @@ export const ROOMS = [
 
 export const AMENITIES = [
   {
-    icon: '🏊',
+    icon: 'waves',
     name: 'Swimming Pool',
     description: 'A rooftop pool with the hills in the background. Open daily, 7am to 9pm — best enjoyed around sunset.',
   },
   {
-    icon: '❄️',
+    icon: 'wind',
     name: 'Air Conditioning',
     description: 'Every room has AC, so monsoon humidity or a cold winter night — you\'re covered either way.',
   },
   {
-    icon: '🍽️',
+    icon: 'utensils',
     name: 'Restaurant & Bar',
     description: 'Home-style Indian food, familiar favourites, and a dining room that works just as well for a family dinner as a team lunch.',
   },
   {
-    icon: '🎉',
+    icon: 'party-popper',
     name: 'Events & Gatherings',
     description: 'Corporate offsite, family reunion, small wedding — tell us what you need and we\'ll handle the rest.',
   },
   {
-    icon: '📶',
+    icon: 'wifi',
     name: 'Free WiFi',
     description: 'Decent WiFi across the property. Connect and get on with your holiday — or your work call, we won\'t judge.',
   },
   {
-    icon: '🌿',
+    icon: 'leaf',
     name: 'Garden & Terrace',
     description: 'Palm trees, open terraces, and balconies where you can sit with a cup of chai and do absolutely nothing.',
   },
